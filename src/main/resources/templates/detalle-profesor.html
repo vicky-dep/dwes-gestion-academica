@@ -64,6 +64,67 @@
         </div>
     </section>
 
+    <section class="mb-5">
+        <h2 class="h4 mb-3">TFG tutorizados</h2>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead><tr><th>Alumno</th><th>Grupo</th><th>Nota actual</th><th>Observaciones</th></tr></thead>
+                <tbody>
+                <tr th:each="tutoria : ${tutoriasTFG}">
+                    <td th:text="${tutoria.nombreCompletoAlumno}"></td>
+                    <td th:text="${tutoria.codigoGrupo != null ? tutoria.codigoGrupo : 'Sin grupo'}"></td>
+                    <td th:text="${tutoria.nota != null ? tutoria.nota : 'Pendiente'}"></td>
+                    <td th:text="${tutoria.observaciones != null and !#strings.isEmpty(tutoria.observaciones) ? tutoria.observaciones : '-'}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(tutoriasTFG)}"><td colspan="4" class="text-body-secondary">Este profesor todavía no tutoriza TFGs.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="h4 mb-3">Asignar o actualizar tutoría TFG</h2>
+        <form th:action="@{/profesores/{id}/tutorias(id=${profesor.id})}" method="post" class="row g-3">
+            <div class="col-md-6">
+                <label for="alumnoId" class="form-label">Alumno</label>
+                <select id="alumnoId" name="alumnoId" class="form-select" required>
+                    <option value="">Selecciona un alumno</option>
+                    <option th:each="alumno : ${listaAlumnos}" th:value="${alumno.id}"
+                            th:text="${alumno.nia + ' - ' + alumno.nombre + ' ' + alumno.apellido1}"></option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="nota" class="form-label">Nota</label>
+                <input id="nota" name="nota" type="number" step="0.01" class="form-control">
+            </div>
+            <div class="col-12">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <textarea id="observaciones" name="observaciones" class="form-control" maxlength="500" rows="2"></textarea>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Guardar tutoría</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="h4 mb-3">Estadísticas de TFG evaluados</h2>
+        <div th:if="${estadisticasTFG.totalEvaluados > 0}" class="table-responsive">
+            <table class="table table-bordered align-middle mb-0">
+                <thead><tr><th>Nota media</th><th>Nota máxima</th><th>Nota mínima</th><th>Total evaluados</th></tr></thead>
+                <tbody>
+                <tr>
+                    <td th:text="${#numbers.formatDecimal(estadisticasTFG.notaMedia, 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(estadisticasTFG.notaMaxima, 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(estadisticasTFG.notaMinima, 1, 2)}"></td>
+                    <td th:text="${estadisticasTFG.totalEvaluados}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${estadisticasTFG.totalEvaluados == 0}" class="text-body-secondary mb-0">Todavía no hay TFGs calificados.</p>
+    </section>
+
     <section>
         <h2 class="h4 mb-3">Alumnos por grupo</h2>
         <div class="table-responsive">
