@@ -5,9 +5,13 @@
     <div class="container">
         <a class="navbar-brand" th:href="@{/profesores}">Gestión Académica</a>
         <div class="navbar-nav">
-            <a class="nav-link" th:href="@{/profesores}">Profesores</a>
-            <a class="nav-link" th:href="@{/grupos}">Grupos</a>
-            <a class="nav-link" th:href="@{/alumnos}">Alumnos</a>
+            <a class="nav-link" th:href="@{/profesores}" th:text="#{profesores}">Profesores</a>
+            <a class="nav-link" th:href="@{/grupos}" th:text="#{grupos}">Grupos</a>
+            <a class="nav-link" th:href="@{/alumnos}" th:text="#{alumnos}">Alumnos</a>
+            <div class="d-flex align-items-center ms-lg-3">
+                <a class="nav-link" th:href="@{''(lang=es)}" th:text="#{lang.es}">ES</a><span>|</span>
+                <a class="nav-link" th:href="@{''(lang=en)}" th:text="#{lang.en}">EN</a>
+            </div>
         </div>
     </div>
 </nav>
